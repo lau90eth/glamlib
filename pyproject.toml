@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "glamlib"
+version = "0.1.1"
+description = "Ethereum Glamsterdam upgrade constants and calculators (EIP-7623, EIP-7976, EIP-8037)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "lau90eth" }]
+
+[tool.setuptools.packages.find]
+include = ["glamlib*"]
