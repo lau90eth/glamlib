@@ -5,11 +5,12 @@ Single source of truth for EIP-7976 and EIP-8037 parameters.
 
 # EIP-7976 — Increase Calldata Floor Cost
 # Source: https://eips.ethereum.org/EIPS/eip-7976
-EIP_7976_FLOOR_PRE = 10   # gas per token pre-Glamsterdam
-EIP_7976_FLOOR_POST = 64  # gas per token post-Glamsterdam
+# TOTAL_COST_FLOOR_PER_TOKEN (not gas/byte)
+EIP_7976_FLOOR_PRE = 10    # EIP-7623: 10 gas per token
+EIP_7976_FLOOR_POST = 16   # EIP-7976: 16 gas per token (64/64 = 16 per token)
 
-# Token definition: 4 nonzero bytes = 1 token, OR 1 zero byte = 1 token
-# Practical: floor applies when execution gas is low
+# Standard token cost (gas per byte, immutato)
+STANDARD_TOKEN_COST = 4    # 4 gas per byte standard
 
 
 # EIP-8037 — State Creation Gas Cost Increase
@@ -35,14 +36,3 @@ COST_CODE_BYTE_POST = CPSB  # 1,530
 def get_eip_7976_floor(pre: bool = True) -> int:
     """Get calldata floor gas per token."""
     return EIP_7976_FLOOR_PRE if pre else EIP_7976_FLOOR_POST
-
-
-def get_state_creation_cost(operation: str, pre: bool = True) -> int:
-    """Get state creation cost for operation type."""
-    costs = {
-        "new_account": (COST_NEW_ACCOUNT_PRE, COST_NEW_ACCOUNT_POST),
-        "sstore_init": (COST_SSTORE_INIT_PRE, COST_SSTORE_INIT_POST),
-        "code_byte": (COST_CODE_BYTE_PRE, COST_CODE_BYTE_POST),
-    }
-    pre_cost, post_cost = costs.get(operation, (0, 0))
-    return pre_cost if pre else post_cost
